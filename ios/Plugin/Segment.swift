@@ -6,13 +6,13 @@ import Segment
         let config = AnalyticsConfiguration.init(writeKey: key)
         config.trackApplicationLifecycleEvents = trackLifecycle;
 
-        if(proxyHost) {
-            configuration.requestFactory = { (url: URL) -> URLRequest in
-                var result = URLRequest(url: url)
+        if(!proxyHost.isEmpty) {
+            config.requestFactory = { (url: URL) -> NSMutableURLRequest in
+                var result = NSMutableURLRequest(url: url)
                 if var components = URLComponents(url: url, resolvingAgainstBaseURL: false) {
                     components.host = proxyHost
                     if let transformedURL = components.url {
-                        result = URLRequest(url: transformedURL)
+                        result = NSMutableURLRequest(url: transformedURL)
                     }
                 }
                 return result
