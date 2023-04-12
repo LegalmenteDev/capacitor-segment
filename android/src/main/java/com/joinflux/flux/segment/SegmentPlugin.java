@@ -1,6 +1,7 @@
 package com.joinflux.flux.segment;
 
 import android.content.Context;
+import android.net.Uri;
 import android.util.Log;
 import com.getcapacitor.JSObject;
 import com.getcapacitor.Plugin;
@@ -9,9 +10,12 @@ import com.getcapacitor.PluginMethod;
 import com.getcapacitor.annotation.CapacitorPlugin;
 import com.segment.analytics.Analytics;
 import com.segment.analytics.Analytics.Builder;
+import com.segment.analytics.ConnectionFactory;
 import com.segment.analytics.Options;
 import com.segment.analytics.Properties;
 import com.segment.analytics.Traits;
+import java.io.IOException;
+import java.net.HttpURLConnection;
 
 @CapacitorPlugin(name = "Segment")
 public class SegmentPlugin extends Plugin {
@@ -21,7 +25,7 @@ public class SegmentPlugin extends Plugin {
 
     @PluginMethod
     public void initialize(PluginCall call) {
-        synchronized(implementation) {
+        synchronized (implementation) {
             // No-op
             if (initialized == true) {
                 call.resolve();
@@ -35,7 +39,26 @@ public class SegmentPlugin extends Plugin {
             }
 
             Context context = this.getContext();
-            Builder builder = new Analytics.Builder(context, key);
+
+            Builder builder;
+            String proxyHost = call.getString("proxyHost");
+
+            if (proxyHost == null) {
+                builder = new Analytics.Builder(context, key);
+            } else {
+                builder =
+                    new Analytics.Builder(context, key)
+                        .connectionFactory(
+                            new ConnectionFactory() {
+                                @Override
+                                protected HttpURLConnection openConnection(String url) throws IOException {
+                                    String path = Uri.parse(url).getPath();
+                                    return super.openConnection(proxyHost + path);
+                                }
+                            }
+                        );
+            }
+
             Boolean trackLifecycle = call.getBoolean("trackLifecycle", false);
             if (trackLifecycle) {
                 builder.trackApplicationLifecycleEvents().experimentalUseNewLifecycleMethods(false);

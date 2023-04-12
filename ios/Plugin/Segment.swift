@@ -2,9 +2,22 @@ import Foundation
 import Segment
 
 @objc public class Segment: NSObject {
-    @objc public func initialize(key: String, trackLifecycle: Bool) {
+    @objc public func initialize(key: String, trackLifecycle: Bool, proxyHost: String) {
         let config = AnalyticsConfiguration.init(writeKey: key)
         config.trackApplicationLifecycleEvents = trackLifecycle;
+
+        if(proxyHost) {
+            configuration.requestFactory = { (url: URL) -> URLRequest in
+                var result = URLRequest(url: url)
+                if var components = URLComponents(url: url, resolvingAgainstBaseURL: false) {
+                    components.host = proxyHost
+                    if let transformedURL = components.url {
+                        result = URLRequest(url: transformedURL)
+                    }
+                }
+                return result
+            }
+        }
         
         Analytics.setup(with: config)
         print("CapacitorSegment: initialized")

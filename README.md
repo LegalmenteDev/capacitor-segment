@@ -51,7 +51,7 @@ initialize(options: InitializeOptions) => any
 
 | Param         | Type                                                                                 |
 | ------------- | ------------------------------------------------------------------------------------ |
-| **`options`** | <code>{ key: string; trackLifecycle?: boolean; recordScreenViews?: boolean; }</code> |
+| **`options`** | <code>{ key: string; trackLifecycle?: boolean; recordScreenViews?: boolean; proxyHost?: string; }</code> |
 
 **Returns:** <code>any</code>
 
