@@ -2,6 +2,9 @@ package com.joinflux.flux.segment;
 
 import android.content.Context;
 import android.util.Log;
+
+import androidx.annotation.Nullable;
+
 import com.getcapacitor.JSObject;
 import com.getcapacitor.NativePlugin;
 import com.getcapacitor.Plugin;
@@ -22,12 +25,12 @@ public class Segment {
     private static final String PLUGIN_TAG = "Segment";
     public Analytics analytics;
 
-    public void identify(String userId, JSObject traits) {
+    public void identify(String userId, @Nullable JSObject traits) {
         this.analytics.identify(userId, makeTraitsFromMap(makeMapFromJSON(traits)), null);
     }
 
-    public void track(String eventName, JSObject properties, JSObject options) {
-        this.analytics.track(eventName, makePropertiesFromMap(makeMapFromJSON(properties)), makeOptionsFromJSON(options));
+    public void track(String eventName, JSObject properties, @Nullable JSObject options) {
+        this.analytics.track(eventName, makePropertiesFromMap(makeMapFromJSON(properties)));
     }
 
     public void page(String pathname) {
