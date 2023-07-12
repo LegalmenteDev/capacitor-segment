@@ -19,9 +19,6 @@
     "type": "git",
     "url": "git+https://github.com/joinflux/capacitor-segment.git"
   },
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com/legalmentedev"
-  },
   "bugs": {
     "url": "https://github.com/joinflux/capacitor-segment/issues"
   },
