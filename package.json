@@ -1,5 +1,5 @@
 {
-  "name": "@joinflux/capacitor-segment",
+  "name": "@legalmentedev/capacitor-segment",
   "version": "2.0.0",
   "description": "A Capacitor plugin for Segment analytics",
   "main": "dist/plugin.cjs.js",
@@ -11,7 +11,7 @@
     "android/build.gradle",
     "dist/",
     "ios/Plugin/",
-    "JoinfluxCapacitorSegment.podspec"
+    "LegalmentedevCapacitorSegment.podspec"
   ],
   "author": "",
   "license": "MIT",
